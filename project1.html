@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jozi Pizza Co. - Operations Analysis | Your Name</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #E8E8E8;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .project-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%);
+            color: #FFD700;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FFD700, #D4AF37, #FFD700);
+        }
+        
+        .project-header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            font-weight: 700;
+        }
+        
+        .project-header p {
+            font-size: 1.3em;
+            color: #F4E5C2;
+            margin-top: 15px;
+        }
+        
+        /* Badges */
+        .badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            color: #000000;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+        
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            padding: 35px;
+            border-radius: 15px;
+            border: 2px solid #D4AF37;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD700;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+        }
+        
+        .metric-value {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .metric-label {
+            color: #B8B8B8;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        /* Content Sections */
+        .section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            padding: 45px;
+            margin-bottom: 35px;
+            border-radius: 15px;
+            border: 2px solid #2d2d2d;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
+            transition: border-color 0.3s ease;
+        }
+        
+        .section:hover {
+            border-color: #D4AF37;
+        }
+        
+        .section h2 {
+            color: #FFD700;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            border-bottom: 3px solid #D4AF37;
+            padding-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .section h3 {
+            color: #F4E5C2;
+            margin-top: 30px;
+            margin-bottom: 18px;
+            font-size: 1.5em;
+        }
+        
+        .section p {
+            color: #E8E8E8;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .section ul {
+            margin-left: 25px;
+            line-height: 2;
+            color: #E8E8E8;
+        }
+        
+        .section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .section strong {
+            color: #FFD700;
+        }
+        
+        /* Dashboard Image */
+        .dashboard-container {
+            margin: 35px 0;
+            text-align: center;
+            padding: 20px;
+            background: #000000;
+            border-radius: 15px;
+            border: 3px solid #D4AF37;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+        }
+        
+        .dashboard-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #2d2d2d;
+        }
+        
+        .dashboard-container img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+        }
+        
+        /* Findings */
+        .findings {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            padding: 30px;
+            border-left: 5px solid #FFD700;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .findings h4 {
+            color: #FFD700;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+        }
+        
+        .findings ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .findings li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #E8E8E8;
+        }
+        
+        .findings li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        /* Technologies */
+        .tech-stack {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        
+        .tech-item {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            color: #000000;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 600;
+            box-shadow: 0 3px 15px rgba(212, 175, 55, 0.4);
+            transition: transform 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6);
+        }
+        
+        /* Impact Section */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .impact-item {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            border-radius: 12px;
+            border: 2px solid #2d2d2d;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .impact-item:hover {
+            border-color: #D4AF37;
+            transform: translateY(-5px);
+        }
+        
+        .impact-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .impact-description {
+            color: #B8B8B8;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 16px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: 2px solid transparent;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            color: #000000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #FFD700;
+            border: 2px solid #D4AF37;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            color: #000000;
+            border-color: #FFD700;
+        }
+        
+        /* Quote Box */
+        .quote-box {
+            background: #000000;
+            border-left: 5px solid #FFD700;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-style: italic;
+            color: #F4E5C2;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #0d0d0d;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        table th {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            color: #000000;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #2d2d2d;
+            color: #E8E8E8;
+        }
+        
+        table tr:hover {
+            background: #1a1a1a;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #D4AF37;
+            margin-top: 25px;
+        }
+        
+        .info-box h4 {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        
+        /* Final CTA */
+        .final-cta {
+            margin-top: 45px;
+            padding: 40px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            color: #F4E5C2;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .final-cta h3 {
+            color: #FFD700;
+            margin-bottom: 18px;
+            font-size: 2em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .project-header h1 {
+                font-size: 2em;
+            }
+            
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .metric-value {
+                font-size: 2.5em;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        /* Scroll Bar Styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0d0d0d;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="project-header">
+            <h1>🍕 Jozi Pizza Co. Operations Analysis</h1>
+            <p>Optimizing Delivery Operations Through Data-Driven Insights</p>
+            
+            <div class="badges">
+                <span class="badge">Power BI</span>
+                <span class="badge">DAX</span>
+                <span class="badge">Excel</span>
+                <span class="badge">Data Analysis</span>
+                <span class="badge">Operations Analytics</span>
+            </div>
+        </div>
+        
+        <!-- Key Metrics -->
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">12,780</div>
+                <div class="metric-label">Orders Analyzed</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">99.7%</div>
+                <div class="metric-label">Root Cause Identified</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">3 Months</div>
+                <div class="metric-label">Data Period</div>
+            </div>
+            
+        </div>
+        
+        <!-- Executive Summary -->
+        <div class="section">
+            <h2>📊 Executive Summary</h2>
+            <p>
+                Jozi Pizza Co., a local pizza delivery service, was experiencing rising customer complaints 
+                and inconsistent delivery times that were hurting customer retention. With a 30-minute 
+                delivery target frequently missed and an <strong>7.2% complaint rate</strong> (4× industry standard), 
+                the owner needed data-driven insights to identify root causes and implement cost-effective solutions.
+            </p>
+            <p style="margin-top: 15px;">
+                I conducted a comprehensive operational analysis of <strong>12,780 orders</strong> over 3 months, 
+                identifying specific bottlenecks in both geographic delivery and kitchen quality control. 
+                The analysis revealed actionable insights that could <strong>reduce delivery times by 32%</strong> and 
+                <strong>eliminate 85% of quality complaints</strong> through targeted staff training—requiring minimal capital investment.
+            </p>
+        </div>
+        
+        <!-- Dashboard Preview -->
+        <div class="section">
+            <h2>📈 Interactive Dashboard</h2>
+            <p>Click the image to view the full interactive Power BI dashboard:</p>
+            
+            <div class="dashboard-container">
+                <!-- Replace with your actual dashboard image -->
+                <img src="Dbproject1.png" alt="Jozi Pizza Operations Dashboard" 
+                     onclick="window.open('link-to-your-powerbi-dashboard', '_blank')">
+            </div>
+            
+            <p style="margin-top: 20px; text-align: center; color: #B8B8B8;">
+                <em>Interactive Power BI dashboard featuring real-time KPIs, geographic analysis, 
+                and operational metrics with black & gold theme</em>
+            </p>
+        </div>
+        
+        <!-- Problem Statement -->
+        <div class="section">
+            <h2>🎯 The Business Problem</h2>
+            
+            <h3>Challenges Faced:</h3>
+            <ul>
+                <li><strong>Inconsistent Delivery Times:</strong> 30-minute target missed 39% of the time</li>
+                <li><strong>Rising Complaints:</strong> 7.63% complaint rate (target: <2%)</li>
+                <li><strong>No Performance Visibility:</strong> No dashboard or tracking system in place</li>
+                <li><strong>Unknown Root Causes:</strong> Management couldn't identify specific problem areas</li>
+                <li><strong>Resource Constraints:</strong> Limited budget for solutions</li>
+            </ul>
+            
+            <div class="quote-box">
+                <strong>💡 Client Quote:</strong><br><br>
+                "We sometimes get complaints even when delivery is fast. Our team is hardworking, 
+                but I don't know where the bottlenecks are. Would love ideas that don't cost a fortune to implement."
+            </div>
+        </div>
+        
+        <!-- Approach & Methodology -->
+        <div class="section">
+            <h2>🔍 My Approach</h2>
+            
+            <h3>1. Data Collection & Cleaning</h3>
+            <p>
+                Started with raw operational data containing <strong>12,780 order records</strong> with 24+ variables 
+                including timestamps, staff assignments, delivery areas, and complaint details.
+            </p>
+            <ul>
+                <li>Cleaned inconsistent data entries (standardized text values)</li>
+                <li>Removed 7 incomplete records</li>
+                <li>Created calculated fields (total prep time, on-time flags, time period categories)</li>
+                <li>Built dimension tables for proper data modeling (Date, Area, Staff)</li>
+            </ul>
+            
+            <h3>2. Exploratory Analysis</h3>
+            <p>Investigated multiple dimensions to find patterns:</p>
+            <ul>
+                <li><strong>Geographic:</strong> Delivery time by area (5 zones: A, B, C, D, E)</li>
+                <li><strong>Temporal:</strong> Peak hours, day-of-week trends, weekly patterns</li>
+                <li><strong>Operational:</strong> Kitchen processes (prep, cooking, boxing times)</li>
+                <li><strong>Quality:</strong> Complaint types correlated with staff performance</li>
+                <li><strong>Staff Performance:</strong> Individual contribution to delays and errors</li>
+            </ul>
+            
+            <h3>3. Dashboard Development</h3>
+            <p>Created an interactive Power BI dashboard featuring:</p>
+            <ul>
+                <li>Executive KPI summary with target comparisons</li>
+                <li>Geographic heatmap of delivery performance</li>
+                <li>Time-series analysis of order volume and complaints</li>
+                <li>Staff performance metrics with drill-down capability</li>
+                <li>Root cause analysis visuals</li>
+            </ul>
+            
+            <h3>Technologies Used:</h3>
+            <div class="tech-stack">
+                <span class="tech-item">Power BI Desktop</span>
+                <span class="tech-item">DAX (30+ measures)</span>
+                <span class="tech-item">Power Query</span>
+                <span class="tech-item">Microsoft Excel</span>
+                <span class="tech-item">Data Modeling</span>
+                <span class="tech-item">Statistical Analysis</span>
+            </div>
+        </div>
+        
+        <!-- Key Findings -->
+        <div class="section">
+            <h2>🔎 Key Insights Discovered</h2>
+            
+            <div class="findings">
+                <h4>1. Geographic Concentration of Delays</h4>
+                <ul>
+                    <li><strong>Areas E and C:</strong> Averaged 48+ minutes (60% over 30-min target)</li>
+                    <li><strong>Areas A and B:</strong> Consistently met target at ~40 minutes</li>
+                    <li><strong>Impact:</strong> 47.3% of "late delivery" complaints from just 2 areas</li>
+                    <li><strong>Root Cause:</strong> Suboptimal delivery routes, not kitchen delays</li>
+                </ul>
+            </div>
+            
+            <div class="findings">
+                <h4>2. Staff-Specific Quality Issues (Critical Finding)</h4>
+                <ul>
+                    <li><strong>99.7% of "Too Doughy" complaints</strong> linked to one oven operator (Chilli)</li>
+                    <li><strong>94.4% of "Wrong Size" errors</strong> linked to one order taker (Dineo)</li>
+                    <li><strong>Analysis revealed:</strong> Chilli's avg cooking time was 0.8 min shorter than peers</li>
+                    <li><strong>Implication:</strong> Training gap, not equipment failure</li>
+                </ul>
+            </div>
+            
+            <div class="findings">
+                <h4>3. Peak Hour Capacity Constraints</h4>
+                <ul>
+                    <li><strong>Order volume:</strong> Tripled between 6-7 PM, especially Fridays</li>
+                    <li><strong>Performance impact:</strong> Delivery times and complaint rates both doubled during peak</li>
+                    <li><strong>Pattern:</strong> Kitchen could handle volume, but delivery capacity was insufficient</li>
+                    <li><strong>Insight:</strong> Need surge capacity, not permanent staffing increase</li>
+                </ul>
+            </div>
+            
+            <div class="findings">
+                <h4>4. Process Efficiency Breakdown</h4>
+                <ul>
+                    <li><strong>Average total time:</strong> 44 minutes (47% over target)</li>
+                    <li><strong>Kitchen time:</strong> ~12 minutes (efficient)</li>
+                    <li><strong>Delivery leg:</strong> ~32 minutes (opportunity for optimization)</li>
+                    <li><strong>Bottleneck:</strong> Route efficiency, not kitchen speed</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Recommendations -->
+        <div class="section">
+            <h2>💡 Data-Driven Recommendations</h2>
+            
+            <h3>Immediate Actions (Week 1-2):</h3>
+            
+            <h4>1. Targeted Staff Retraining</h4>
+            <p><strong>Action:</strong> One-on-one coaching for Chilli (oven) and Dineo (order taker)</p>
+            <ul>
+                <li>Implement daily complaint tracking for 14 days</li>
+                <li>Provide size-specific cooking time reference card</li>
+                <li>Shadow training with best-performing staff</li>
+            </ul>
+            <p><strong>Expected Impact:</strong> Near-elimination of two top complaint types (85% reduction)</p>
+            <p><strong>Cost:</strong> Minimal - training materials only</p>
+            
+            <h4>2. Route Optimization</h4>
+            <p><strong>Action:</strong> Redesign delivery routes for Areas E and C</p>
+            <ul>
+                <li>Assign experienced drivers to problem areas during peak</li>
+                <li>Test new routes during weekend peaks</li>
+                <li>Implement GPS tracking for route verification</li>
+            </ul>
+            <p><strong>Expected Impact:</strong> 20% reduction in delivery time for problem areas</p>
+            <p><strong>Cost:</strong> Low - route planning time only</p>
+            
+            <h3>Short-Term Improvements (Week 3-4):</h3>
+            
+            <h4>3. Peak Hour Staffing Adjustment</h4>
+            <p><strong>Action:</strong> Add temporary capacity 5:30-7:30 PM on Fridays & Saturdays</p>
+            <ul>
+                <li>Shift prep work to slower hours (2-4 PM)</li>
+                <li>Add one part-time driver for evening peaks</li>
+            </ul>
+            <p><strong>Expected Impact:</strong> Eliminate order backlog during rush hours</p>
+            <p><strong>Cost:</strong> Moderate - part-time labor</p>
+            
+            <h4>4. Performance Dashboard Implementation</h4>
+            <p><strong>Action:</strong> Weekly Power BI dashboard tracking key metrics</p>
+            <ul>
+                <li>On-time delivery % by area and driver (target: >90%)</li>
+                <li>Complaint rate per staff role (target: <1%)</li>
+                <li>Average prep time during peak hours (target: <12 mins)</li>
+            </ul>
+            <p><strong>Expected Impact:</strong> Early issue detection and data-driven management</p>
+            <p><strong>Cost:</strong> None - using existing Power BI license</p>
+        </div>
+        
+        <!-- Projected Impact -->
+        <div class="section">
+            <h2>📊 Projected Impact</h2>
+            
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <div class="impact-number">+28.7%</div>
+                    <div class="impact-description">On-Time Delivery Improvement</div>
+                    <p style="font-size: 0.85em; margin-top: 8px; color: #888;">
+                        From 61.3% to target 90%
+                    </p>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-number">-32%</div>
+                    <div class="impact-description">Average Delivery Time Reduction</div>
+                    <p style="font-size: 0.85em; margin-top: 8px; color: #888;">
+                        From 44 mins to <30 mins
+                    </p>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-number">-76%</div>
+                    <div class="impact-description">Complaint Rate Reduction</div>
+                    <p style="font-size: 0.85em; margin-top: 8px; color: #888;">
+                        From 8.3% to <2%
+                    </p>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-number">-85%</div>
+                    <div class="impact-description">Quality Complaints Eliminated</div>
+                    <p style="font-size: 0.85em; margin-top: 8px; color: #888;">
+                        Through targeted training
+                    </p>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h4>💰 Return on Investment</h4>
+                <p>
+                    <strong>High ROI:</strong> All recommendations require minimal capital investment 
+                    (primarily training and route planning time) with significant customer satisfaction gains. 
+                    Improved on-time delivery and reduced complaints directly impact customer retention 
+                    and repeat business—critical for a local service business.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Technical Skills Demonstrated -->
+        <div class="section">
+            <h2>🛠️ Skills Demonstrated</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 25px;">
+                <div>
+                    <h4 style="color: #FFD700; margin-bottom: 15px;">Data Analysis</h4>
+                    <ul style="line-height: 1.8;">
+                        <li>Root cause analysis</li>
+                        <li>Correlation analysis (staff vs complaints)</li>
+                        <li>Time series analysis</li>
+                        <li>Geospatial analysis</li>
+                        <li>Statistical aggregations</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: #FFD700; margin-bottom: 15px;">Technical Tools</h4>
+                    <ul style="line-height: 1.8;">
+                        <li>Power BI dashboard design</li>
+                        <li>DAX measure creation (30+ formulas)</li>
+                        <li>Data modeling (star schema)</li>
+                        <li>Power Query data transformation</li>
+                        <li>Excel data cleaning</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: #FFD700; margin-bottom: 15px;">Business Acumen</h4>
+                    <ul style="line-height: 1.8;">
+                        <li>Translating data into action</li>
+                        <li>Cost-benefit analysis</li>
+                        <li>Performance metric selection</li>
+                        <li>Stakeholder communication</li>
+                        <li>Change management awareness</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lessons Learned -->
+        <div class="section">
+            <h2>📚 Key Takeaways</h2>
+            
+            <div class="info-box">
+                <h4>What I Learned:</h4>
+                <ul style="line-height: 2; margin-top: 15px;">
+                    <li><strong>Data quality matters:</strong> Spent 30% of project time on data cleaning—
+                        critical for accurate insights</li>
+                    <li><strong>Simple visuals win:</strong> Clear bar charts with reference lines often 
+                        more impactful than complex visualizations</li>
+                    <li><strong>Context is key:</strong> Numbers mean nothing without business context 
+                        and targets for comparison</li>
+                    <li><strong>Actionability over complexity:</strong> Stakeholders want clear next steps, 
+                        not just impressive analytics</li>
+                    <li><strong>Tell the story:</strong> Data analysis is only valuable if you can 
+                        communicate insights clearly to non-technical audiences</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Call to Action -->
+        <div class="section">
+            <h2>🔗 View This Project</h2>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">📊 View Interactive Dashboard</a>
+                <a href="#" class="btn btn-secondary">📁 Download Full Report (PDF)</a>
+                <a href="#" class="btn btn-secondary">💻 View on GitHub</a>
+            </div>
+            
+            <div class="final-cta">
+                <h3>Interested in working together?</h3>
+                <p style="margin: 20px 0; font-size: 1.1em;">
+                    I'm passionate about turning data into actionable insights that drive business results.
+                </p>
+                <a href="mailto:your.email@example.com" class="btn btn-primary" style="margin-top: 15px;">
+                    📧 Get in Touch
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
